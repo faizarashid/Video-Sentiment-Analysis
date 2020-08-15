@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<!-- New line -->
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Home</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+        <style>
+        
+            body {
+              background-image: url("static/emotions.jpg");
+              background-size: 100% ;
+              background-repeat: no-repeat;
+              background-attachment: fixed;
+              font-family: roboto,'Noto Sans Myanmar UI',arial,sans-serif;
+            }
+            .video::cue {
+                background-color: transparent;
+                
+                font-size: 40px;
+                font-family: "Lobster",system-ui;
+            }
+            video::cue(b) {
+                color: peachpuff;
+                }
+            .video::cue(.red){ color: red; }
+            .video::cue(.blue){ color: blue; }
+            .video::cue(.green){ color: green; }
+            .democontainer {
+                    margin: 40px;
+                    
+                    border-radius: 50px;
+                    padding: 48px 40px 36px;
+                    background-color:whitesmoke;
+                    border: 1px solid ThreeDShadow;
+                }
+            .containerforupload{
+                width: 100%;
+                padding-right: 15px;
+                padding-left: 15px;
+                border: 1px solid ThreeDShadow;
+                margin-right: auto;
+                margin-left: auto;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                background-color:whitesmoke;
+                
+                }
+                p{
+                    font-family: roboto,'Noto Sans Myanmar UI',arial,sans-serif;
+                    text-align: center;
+                }
+                @media (min-width: 576px) {
+                .containerforupload{
+                    max-width: 540px;
+                }
+                }
+
+                @media (min-width: 768px) {
+                .containerforupload {
+                    max-width: 720px;
+                }
+                }
+
+                @media (min-width: 992px) {
+                .containerforupload{
+                    max-width: 960px;
+                }
+                }
+
+                @media (min-width: 1200px) {
+                .containerforupload {
+                    max-width: 440px;
+                    margin-left: 400px;
+                    margin-right: 500px;
+                    border-radius: 50px;
+                    padding: 48px 40px 36px;
+
+                }
+                }
+                .card-body {
+                -webkit-box-flex: 1;
+                -ms-flex: 1 1 auto;
+                flex: 1 1 auto;
+                padding: 1.25rem;
+                }
+                .no-js #loader { display: none;  }
+                .js #loader { display: block; position: absolute; left: 100px; top: 0; }
+                .se-pre-con {
+                  position: fixed;
+                  left: 0px;
+                  top: 0px;
+                  width: 100%;
+                  height: 100%;
+                  z-index: 9999;
+                  background: url("static/logo/loading.gif") center no-repeat #fff;
+                }
+               
+        </style>
+        <script>
+            //var track = document.getElementById('soybean-talk-clip-captions').track;
+             
+                        $(window).load(function() {
+                // Animate loader off screen
+                $(".se-pre-con").fadeOut("slow");;
+              });    
+               // when a button is clicked, you make an Ajax call.
+        
+        
+
+             var loadFile = function(event) {
+                    var image = document.getElementById('output');
+                  ''
+                    image.src = URL.createObjectURL(event.target.files[0]);
+                };
+            $(document).ready(function(){
+            $("input[type='submit']").click(function(e) {
+              
+              $("#image").css({
+                  "position": "fixed","left": "0px",
+                  "top": "0px",
+                  "width": "100%",
+                  "height": "100%",
+                  "z-index": "9999",
+                  "background": "url('static/logo/analysis3.gif') center no-repeat #00070c ",
+                  "background-colo": "black"
+                  
+              
+              });
+
+            });
+          });
+            
+        </script>
+    </head>
+   
+    <body>
+      <div class="se-pre-con"></div>
+      <div id="image"></div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="http://127.0.0.1:5000/">
+                <img  id="image"src="static/logo/3.png" style=" width:60% ;cursor: pointer;">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="http://127.0.0.1:5000/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="demo">Demo</a>
+                </li>
+               
+                
+              </ul>
+        
+            </div>
+          </nav>
+          {% block content %}
+        <div class="containerforupload">
+            <div class="col-12 col-md">
+                
+                
+                
+                <form action = "http://127.0.0.1:5000/upload" method = "POST"  enctype = "multipart/form-data">
+                    <input type="file" id="myfile" name="myfile" style="display:none;" ><br><br>
+                    
+                    <p><label for="myfile" style="cursor: pointer;">
+                       <img  id="image"src="static/cloud-up-icon.png" style="cursor: pointer;">
+                    </label><br>
+                    Click on Cloud icon ,then select the path to video and lastly click on upload button
+                </p>
+                    <p style="color: brown; text-align: center;"> <b>Note:Please Upload a Video with resolution greater than 360p</b></p>
+                    
+                        <input type="submit" class="btn btn-primary btn-block" value="Upload"  />
+                    
+                    
+                </form>
+              
+            
+            </div>    
+        </div>
+        {% endblock %}
+        
+
+        <footer class="container py-5 bg-light">
+            <div class="row">
+              <div class="col-12 col-md">
+           
+                <small class="d-block mb-3 text-muted">&copy; 2020</small>
+              </div>
+              <div class="col-6 col-md">
+                <h5>Before Upload Install</h5>
+                <ul class="list-unstyled text-small">
+                  <li><a class="text-muted" href="https://pypi.org/project/cmake/">CMake</a></li>
+                  <li><a class="text-muted" href="https://pypi.org/project/boost-py/">Boost Py</a></li>
+                  <li><a class="text-muted" href="https://pypi.org/project/dlib/">Dlib</a></li>
+                  <li><a class="text-muted" href="https://pypi.org/project/opencv-python/">Open CV</a></li>
+                  <li><a class="text-muted" href="https://pypi.org/project/autokeras/">Auto Keras</a></li>
+                  <li><a class="text-muted" href="https://pypi.org/project/face-recognize/">Face Recognize</a></li>
+                </ul>
+              </div>
+              <div class="col-6 col-md">
+                <h5>Positive</h5>
+                <img  id="image"src="static/happy-face.jpg" style=" width:70% ;cursor: pointer;">
+
+              </div>
+              <div class="col-6 col-md">
+                <h5>Negative</h5>
+                <img  id="image"src="static/negative.png" style=" width:70% ;cursor: pointer;">
+              </div>
+              <div class="col-6 col-md">
+                <h5>Nuertral</h5>
+                <img  id="image"src="static/nuetral.png" style=" width:70% ;cursor: pointer;">
+              </div>
+            </div>
+          </footer>    
+    </body>
+
+   
+</html>
