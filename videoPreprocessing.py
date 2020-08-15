@@ -155,14 +155,14 @@ def predict():
 def video():
     
     # Replace the parameter with the location of the video
-    video = moviepy.editor.VideoFileClip("D:/FYP/VSA/static/sample.mp4")
+    video = moviepy.editor.VideoFileClip("static/sample.mp4")
     audio = video.audio
     #Replace the parameter with the location along with filename
-    audio.write_audiofile("D:/FYP/VSA/static/audio.mp3") 
+    audio.write_audiofile("static/audio.mp3") 
     
     video_into_frames()
     predict()
     cam = cv2.VideoCapture("static/sample.mp4") 
     fps = cam.get(cv2.CAP_PROP_FPS)
     video_from_frames(fps)
-    combine_audio("D:/FYP/VSA/static/project.avi","D:/FYP/VSA/static/audio.mp3","D:/FYP/VSA/static/projectwithaudio.mp4",25)
+    combine_audio("static/project.avi","static/audio.mp3","static/projectwithaudio.mp4",25)

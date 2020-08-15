@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 
 
-UPLOAD_FOLDER='D:/FYP/VSA/static/'
+UPLOAD_FOLDER='D:/FYP/Video-Sentiment-Analysis/static/'
 app.config['UPLOAD_EXTENSIONS'] = ['.mp4']
 app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
 
