@@ -165,4 +165,5 @@ def video():
     cam = cv2.VideoCapture("static/sample.mp4") 
     fps = cam.get(cv2.CAP_PROP_FPS)
     video_from_frames(fps)
+    
     combine_audio("static/project.avi","static/audio.mp3","static/projectwithaudio.mp4",25)

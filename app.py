@@ -2,6 +2,7 @@ from flask import Flask, render_template,request,send_from_directory,redirect,ur
 import videoPreprocessing
 from werkzeug.utils import secure_filename
 import os,re,time
+import textPreprocessing
 
 
 app = Flask(__name__)
@@ -10,7 +11,7 @@ app = Flask(__name__)
 
 
 UPLOAD_FOLDER='D:/FYP/Video-Sentiment-Analysis/static/'
-app.config['UPLOAD_EXTENSIONS'] = ['.mp4']
+app.config['UPLOAD_EXTENSIONS'] = ['.mp4','.srt']
 app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
 
 @app.route('/favicon.ico')
@@ -26,16 +27,35 @@ def after_request(response):
 def index():
     return render_template('layout.html')
 
-@app.route('/demo')
-def demo():
-    return render_template('demo.html')
+@app.route('/demo',methods=['POST'])
+def text():
+    file=request.files["mysubfile"]
+    path=os.path.join(app.config['UPLOAD_FOLDER'], "subtitle.vtt")
+    file.save(path)
+    for filename in os.listdir('static/'):
+        if filename.startswith('my_captions'):  # not to remove other files
+            os.remove('static/' + filename)
+    textPreprocessing.file_writing("subtitle.vtt")
+    
+    new_file_name = "my_captions" + str(time.time()) + ".vtt"
+    os.rename(os.path.join(app.config['UPLOAD_FOLDER'], "my_captions.vtt"),
+                os.path.join(app.config['UPLOAD_FOLDER'], new_file_name))
+    return render_template('demo.html',filename=new_file_name)
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
    if request.method == 'POST':
-      f = request.files['myfile']
-      path=os.path.join(app.config['UPLOAD_FOLDER'], "sample.mp4")
-      f.save(path)
+      
+
+        # save each "charts" file
+      for file in request.files.getlist('myfile'):
+        if file.filename.endswith(".mp4"):
+            path=os.path.join(app.config['UPLOAD_FOLDER'], "sample.mp4")
+            file.save(path)
+        else:
+            path=os.path.join(app.config['UPLOAD_FOLDER'], "subtitles.vtt")
+            file.save(path)
+    
       for filename in os.listdir('static/'):
         if filename.startswith('projectwithaudio'):  # not to remove other files
             os.remove('static/' + filename)

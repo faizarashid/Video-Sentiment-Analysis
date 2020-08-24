@@ -52,6 +52,9 @@
                 background-color:whitesmoke;
                 
                 }
+                a{
+                  padding: 5px;
+                }
                 p{
                     font-family: roboto,'Noto Sans Myanmar UI',arial,sans-serif;
                     text-align: center;
@@ -128,8 +131,8 @@
                   "width": "100%",
                   "height": "100%",
                   "z-index": "9999",
-                  "background": "url('static/logo/analysis3.gif') center no-repeat #00070c ",
-                  "background-colo": "black"
+                  "background": "url('static/logo/analysis.gif') center no-repeat #00070c ",
+                  "background-color": "black"
                   
               
               });
@@ -157,7 +160,7 @@
                   <a class="nav-link" href="http://127.0.0.1:5000/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="demo">Demo</a>
+                  <a class="nav-link" href="#">Text Analysis</a>
                 </li>
                
                 
@@ -172,9 +175,9 @@
                 
                 
                 <form action = "http://127.0.0.1:5000/upload" method = "POST"  enctype = "multipart/form-data">
-                    <input type="file" id="myfile" name="myfile" style="display:none;" ><br><br>
+                    <input type="file" name="myfile" id="myfile" style="display:none;" multiple="true"><br><br>
                     
-                    <p><label for="myfile" style="cursor: pointer;">
+                    <p><label for="myfile" style="cursor: pointer;" >
                        <img  id="image"src="static/cloud-up-icon.png" style="cursor: pointer;">
                     </label><br>
                     Click on Cloud icon ,then select the path to video and lastly click on upload button
@@ -189,6 +192,28 @@
             
             </div>    
         </div>
+        <div class="containerforupload">
+          <div class="col-12 col-md">
+              
+              
+              
+              <form action = "http://127.0.0.1:5000/demo" method = "POST"  enctype = "multipart/form-data">
+                  <input type="file" name="mysubfile" id="subfile" style="display:none;" multiple="true"><br><br>
+                  
+                  <p><label for="subfile" style="cursor: pointer;" >
+                     <img  id="image"src="static/cloud-up-icon.png" style="cursor: pointer;">
+                  </label><br>
+                  Click on Cloud icon ,then select the path to subtitle file and lastly click on upload button
+              </p>
+                  
+                      <input type="submit" class="btn btn-primary btn-block" value="Upload"  />
+                  
+                  
+              </form>
+            
+          
+          </div>    
+      </div>
         {% endblock %}
         
 
