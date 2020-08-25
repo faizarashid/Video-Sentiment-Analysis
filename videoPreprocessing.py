@@ -88,24 +88,21 @@ def predict():
     Category = ["Angry", "Disgust","Fear", "Happy", "Neutral", "Sad","Surprise"]
     #Category = ["Negative", "Neutral","Positive"]
     font = cv2.FONT_HERSHEY_SIMPLEX
-    # Get a reference to webcam 
-    video_capture = cv2.VideoCapture('static/sample.mp4')
     
     model = tf.keras.models.load_model("model.h5")
     # Initialize variables
     face_locations = []
-    currentframe=0
-    while True:
+    
+    for count in range(len(os.listdir('static/data'))):
         # Grab a single frame of video
-        ret, frame = video_capture.read()
+        filename = 'static/data/frame' + str(count) + '.jpg'
         # Quit when the input video file ends
+        frame = cv2.imread(filename)
         
-        if not ret:
-            break
-        currentframe=currentframe+1
-        #print("Frame No. :: ",currentframe)
+        
+       
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
-        rgb_frame = frame[:, :, ::-1]
+        
         gray_fr = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         # Find all the faces in the current frame of video
         
@@ -140,17 +137,11 @@ def predict():
         # Display the resulting image
             #plt.imshow(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             #plt.show()
-        name = 'static/data/frame' + str(currentframe) + '.jpg'
         
-        if os.path.isfile(name):
-            cv2.imwrite(name, frame)
-        # Hit 'q' on the keyboard to quit!
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-
-    # Release handle to the webcam
-    video_capture.release()
-    cv2.destroyAllWindows()
+        
+        if os.path.isfile(filename):
+            cv2.imwrite(filename, frame)
+    
 
 def video():
     
