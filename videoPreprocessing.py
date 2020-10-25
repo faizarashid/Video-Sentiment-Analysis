@@ -126,6 +126,7 @@ def predict():
             # Blue color in BGR 
             if pred=="Negative" or pred=="Angry" or pred=="Disgust" or pred=="Fear" or pred=="Sad":
                 rgb_value=(0,0,255)
+
             elif pred=="Neutral":
                 rgb_value=(255,0,0)
             elif pred=="Positive" or pred=="Surprise" or pred=="Happy" :  
@@ -141,6 +142,14 @@ def predict():
         
         if os.path.isfile(filename):
             cv2.imwrite(filename, frame)
+            if pred=="Negative" or pred=="Angry" or pred=="Disgust" or pred=="Fear" or pred=="Sad":
+                cv2.imwrite('static/Image/negative/frame'+ str(count) + '.jpg', frame)
+            elif pred=="Neutral":
+                cv2.imwrite('static/Image/neutral/frame'+ str(count) + '.jpg', frame)
+
+            elif pred=="Positive" or pred=="Surprise" or pred=="Happy" :  
+                cv2.imwrite('static/Image/positive/frame'+ str(count) + '.jpg', frame)
+
     
 
 def video():
@@ -158,3 +167,25 @@ def video():
     video_from_frames(fps)
     
     combine_audio("static/project.avi","static/audio.mp3","static/projectwithaudio.mp4",25)
+
+def video_extract():
+    video = moviepy.editor.VideoFileClip("static/sample.mp4")
+    audio = video.audio
+    #Replace the parameter with the location along with filename
+    audio.write_audiofile("static/audio.mp3") 
+    try: 
+        
+        # creating a folder named data 
+        if os.path.exists('static/Image'): 
+            shutil.rmtree('static/Image')
+        
+        os.makedirs('static/Image')
+        os.makedirs('static/Image/positive')
+        os.makedirs('static/Image/negative')
+        os.makedirs('static/Image/neutral')
+    
+    # if not created then raise error 
+    except OSError: 
+        print ('Error: Creating directory of data') 
+    video_into_frames()
+    predict()
