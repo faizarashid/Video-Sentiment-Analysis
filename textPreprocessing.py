@@ -51,10 +51,10 @@ def file_writing(path):
     for line in webvtt.read('static/subtitle.vtt'):
         emotion=predict(str(line.text))
         
-        if emotion == "joy":
+        if emotion is "joy":
             caption = Caption(line.start,line.end,"<c.green> "+emotion+": "+line.text+"</c>")
             
-            caption = Caption(line.start,line.end,"<c.red> "+emotion+": "+line.text+"</c>")
+           
         elif emotion == "anger":
             caption = Caption(line.start,line.end,"<c.red> "+emotion+": "+line.text+"</c>")
         elif emotion == "sadness":
