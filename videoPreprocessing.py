@@ -7,7 +7,7 @@ import face_recognition
 from matplotlib import pyplot as plt
 import moviepy.editor
 import tensorflow as tf
-
+import glob
 
 def video_into_frames():
 
@@ -152,7 +152,22 @@ def predict():
 
     
 
-def video():
+def video(path):
+    
+    # Replace the parameter with the location of the video
+    video = moviepy.editor.VideoFileClip("static/sample.mp4")
+    audio = video.audio
+    #Replace the parameter with the location along with filename
+    audio.write_audiofile("static/audio.mp3") 
+    
+   # video_into_frames()
+    #predict()
+    cam = cv2.VideoCapture("static/sample.mp4") 
+    fps = cam.get(cv2.CAP_PROP_FPS)
+    video_from_frames(fps)
+    
+    combine_audio("static/project.avi","static/audio.mp3","static/projectwithaudio.mp4",25)
+def image_extract():
     
     # Replace the parameter with the location of the video
     video = moviepy.editor.VideoFileClip("static/sample.mp4")
@@ -162,30 +177,26 @@ def video():
     
     video_into_frames()
     predict()
-    cam = cv2.VideoCapture("static/sample.mp4") 
-    fps = cam.get(cv2.CAP_PROP_FPS)
-    video_from_frames(fps)
-    
-    combine_audio("static/project.avi","static/audio.mp3","static/projectwithaudio.mp4",25)
 
+    
 def video_extract():
     video = moviepy.editor.VideoFileClip("static/sample.mp4")
     audio = video.audio
     #Replace the parameter with the location along with filename
     audio.write_audiofile("static/audio.mp3") 
+    
     try: 
         
         # creating a folder named data 
-        if os.path.exists('static/Image'): 
-            shutil.rmtree('static/Image')
+        if os.path.exists('static/Video') :
+            shutil.rmtree('static/Video')
         
-        os.makedirs('static/Image')
-        os.makedirs('static/Image/positive')
-        os.makedirs('static/Image/negative')
-        os.makedirs('static/Image/neutral')
+        os.makedirs('static/Video')
     
     # if not created then raise error 
     except OSError: 
         print ('Error: Creating directory of data') 
-    video_into_frames()
-    predict()
+    #video_into_frames()
+    #predict()
+
+    
