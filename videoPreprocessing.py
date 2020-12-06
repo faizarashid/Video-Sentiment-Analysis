@@ -16,7 +16,7 @@ def video_into_frames():
     cam = cv2.VideoCapture("static/sample.mp4") 
     
     try: 
-        
+        print("Breaking video into frames")
         # creating a folder named data 
         if os.path.exists('static/data'): 
             shutil.rmtree('static/data')
@@ -88,13 +88,14 @@ def predict():
     Category = ["Angry", "Disgust","Fear", "Happy", "Neutral", "Sad","Surprise"]
     #Category = ["Negative", "Neutral","Positive"]
     font = cv2.FONT_HERSHEY_SIMPLEX
-    
+    print("Predicting result..")
     model = tf.keras.models.load_model("model.h5")
     # Initialize variables
     face_locations = []
-    
+    pred="none"
     for count in range(len(os.listdir('static/data'))):
         # Grab a single frame of video
+        print("frame")
         filename = 'static/data/frame' + str(count) + '.jpg'
         # Quit when the input video file ends
         frame = cv2.imread(filename)
@@ -160,8 +161,8 @@ def video(path):
     #Replace the parameter with the location along with filename
     audio.write_audiofile("static/audio.mp3") 
     
-   # video_into_frames()
-    #predict()
+    video_into_frames()
+    predict()
     cam = cv2.VideoCapture("static/sample.mp4") 
     fps = cam.get(cv2.CAP_PROP_FPS)
     video_from_frames(fps)
