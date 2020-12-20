@@ -3,8 +3,8 @@ import videoPreprocessing
 from werkzeug.utils import secure_filename
 import os,re,time
 import textPreprocessing
-
-
+import audioPreprocessing
+import multimodal
 app = Flask(__name__)
 
 
@@ -39,7 +39,7 @@ def text():
             os.remove('static/' + filename)
     if request.form['submit_button'] == 'Extract Text':
         textPreprocessing.text_extract()
-        return "<h1>Text Extracted Please check Text folder with in Static folder </h1>"  
+        return render_template('extractedtext.html') 
     if request.form['submit_button'] == 'Upload & Visualize':
         textPreprocessing.file_writing("subtitle.vtt")
         new_file_name = "my_captions" + str(time.time()) + ".vtt"
@@ -64,19 +64,55 @@ def upload_file():
         if filename.startswith('projectwithaudio'):  # not to remove other files
             os.remove('static/' + filename)
       if request.form['submit_button'] == 'Upload & Visualize':
-        videoPreprocessing.video()
+        videoPreprocessing.video(UPLOAD_FOLDER)
         
         new_file_name = "projectwithaudio" + str(time.time()) + ".mp4"
         os.rename(os.path.join(app.config['UPLOAD_FOLDER'], "projectwithaudio.mp4"),
                     os.path.join(app.config['UPLOAD_FOLDER'], new_file_name))
         return render_template('display.html',filename=new_file_name)
+      
       if request.form['submit_button'] == 'Extract Images':
 
+        videoPreprocessing.image_extract()
+        return render_template('extractedimage.html')
+      elif request.form['submit_button'] == 'Extract Video':
+
         videoPreprocessing.video_extract()
-        return "<h1>Text Extracted Please check Image folder with in Static folder </h1" 
+        return render_template('extractedimage.html')
         #return render_template('extractimage.html')
-      if request.form['submit_button'] == 'Extract Text':
+      elif request.form['submit_button'] == 'Extract Text':
           textPreprocessing.text_extract()
+@app.route('/audio', methods=['POST'])
+def audio():
+  audioPreprocessing.detach_audios("D:/FYP/7th Semester/Test Videos/selena-gomez-this-is-the-year-official.mp4","D:/FYP/7th Semester/Test Videos/thiss the year.vtt")
+  audioPreprocessing.audio("static/audio")
+  return render_template("Audio analysis successfully performed")
+
+@app.route('/mmanalysis', methods=['POST'])
+def multi_modal():
+      for file in request.files.getlist('myfile'):
+        if file.filename.endswith(".mp4"):
+            pathvideo=os.path.join(app.config['UPLOAD_FOLDER'], "sample.mp4")
+            file.save(pathvideo)
+        else:
+            pathtext=os.path.join(app.config['UPLOAD_FOLDER'], "subtitles.vtt")
+            file.save(pathtext)
+    
+      for filename in os.listdir('static/'):
+        if filename.startswith('projectwithaudio'):  # not to remove other files
+            os.remove('static/' + filename)
+      multimodal.mutimodal_analysis(pathvideo,pathtext)
+      for filename in os.listdir('static/'):
+        if filename.startswith('output'):  # not to remove other files
+            os.remove('static/' + filename)
+      new_file_name = "output" + str(time.time()) + ".mp4"
+      os.rename(os.path.join(app.config['UPLOAD_FOLDER'], "output.mp4"),
+                    os.path.join(app.config['UPLOAD_FOLDER'], new_file_name))
+      return render_template('display.html',filename=new_file_name)
+      
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
