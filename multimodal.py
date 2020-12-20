@@ -12,7 +12,6 @@ def video_division(video,subtitle):
         
     os.makedirs('static/video')
     count =0
-    f= open("combine.txt","w+")
     for line in webvtt.read(subtitle):
         filename="static/video/video"+str(count)+".mp4"
         
@@ -20,7 +19,7 @@ def video_division(video,subtitle):
         cmd = ["ffmpeg", "-ss", line.start,  "-to", line.end,"-i", video, filename]
         subprocess.run(cmd, stderr=subprocess.STDOUT)
         count+=1
-    f.close()
+
     return
 
 def mutimodal_analysis(video,subtitle):
@@ -29,7 +28,7 @@ def mutimodal_analysis(video,subtitle):
     #perform text, video, audio analysis on data
     #combine videos
     #display video
-    f= open("combine.txt","w+")
+   
     line=[]
     for text in webvtt.read(subtitle):
         line.append(str(text))
@@ -37,10 +36,10 @@ def mutimodal_analysis(video,subtitle):
     audioPreprocessing.detach_audios(video,subtitle)
     pred_audio=audioPreprocessing.audio("static/audio/")
     print(pred_audio)
+    f= open("combine.txt","w+")
     for i in range(len('static/video/')):
         fname='static/video/video'+str(i)+'.mp4'
         audname='static/audio/audio'+str(i)+'.mp3'
-        f.write("file '"+fname+"'\n")
         videoPreprocessing.video_into_frames(fname)
         pred_video=videoPreprocessing.predict()
         max_value = max(pred_video.values())  # maximum value
@@ -49,15 +48,47 @@ def mutimodal_analysis(video,subtitle):
         audio_res=pred_audio[audname]
         print(max_keys,pred_text,audio_res)
         filename="static/video/output"+str(i)+".mp4"
-        cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='My text starting ':x=640:y=360:fontsize=24:fontcolor=white" ,"-c:a" ,"copy", filename]
+        if str(max_keys) == "Positive" and  pred_text=="Positive" and audio_res=="Positive":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Positive ':x=640:y=360:fontsize=24:fontcolor=green" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Negative" and  pred_text=="Positive" and audio_res=="Positive":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Positive ':x=640:y=360:fontsize=24:fontcolor=green" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Neutral" and  pred_text=="Positive" and audio_res=="Positive":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Positive ':x=640:y=360:fontsize=24:fontcolor=green" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Positive" and  pred_text=="Negative" and audio_res=="Negative":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Negative ':x=640:y=360:fontsize=24:fontcolor=red" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Neutral" and  pred_text=="Negative" and audio_res=="Negative":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Negative ':x=640:y=360:fontsize=24:fontcolor=red" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Negative" and  pred_text=="Negative" and audio_res=="Negative":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Negative ':x=640:y=360:fontsize=24:fontcolor=red" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Neutral" and  pred_text== "Neutral" and audio_res== "Neutral":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Neutral ':x=640:y=360:fontsize=24:fontcolor=blue" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Positive" and  pred_text== "Neutral" and audio_res== "Neutral":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Neutral ':x=640:y=360:fontsize=24:fontcolor=blue" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Negative" and  pred_text== "Neutral" and audio_res== "Neutral":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Neutral ':x=640:y=360:fontsize=24:fontcolor=blue" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Positive" and  pred_text== "Positive" and audio_res== "Neutral":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Positive ':x=640:y=360:fontsize=24:fontcolor=green" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Positive" and  pred_text== "Positive" and audio_res== "Negative":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Positive ':x=640:y=360:fontsize=24:fontcolor=green" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Negative" and  pred_text=="Negative" and audio_res=="Positive":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Negative ':x=640:y=360:fontsize=24:fontcolor=red" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Negative" and  pred_text=="Negative" and audio_res=="Neutral":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Negative ':x=640:y=360:fontsize=24:fontcolor=red" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Neutral" and  pred_text== "Neutral" and audio_res== "Negative":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Neutral ':x=640:y=360:fontsize=24:fontcolor=blue" ,"-c:a" ,"copy", filename]
+        elif str(max_keys) == "Neutral" and  pred_text== "Neutral" and audio_res== "Positive":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Neutral ':x=640:y=360:fontsize=24:fontcolor=blue" ,"-c:a" ,"copy", filename]
+        else:
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Neutral ':x=640:y=360:fontsize=24:fontcolor=blue" ,"-c:a" ,"copy", filename]
+        subprocess.run(cmd, stderr=subprocess.STDOUT)
         f.write("file '"+filename+"'\n")
     f.close()   
-
+    videos_combine('static/video/video')
     return
 
 
 def videos_combine(video_path):
-    cmd= ["ffmpeg" ,"-f", "concat" ,"-safe","0" ,"-i", "combine.txt","-c", "copy", "output.mp4"]
+    cmd= ["ffmpeg" ,"-f", "concat" ,"-safe","0" ,"-i", "combine.txt","-c", "copy", "static/output.mp4"]
     #video_division("D:/FYP/7th Semester/Test Videos/selena-gomez-this-is-the-year-official.mp4","D:/FYP/7th Semester/Test Videos/thiss the year.vtt")
     subprocess.run(cmd, stderr=subprocess.STDOUT)
     for filename in os.listdir('static/video/'):

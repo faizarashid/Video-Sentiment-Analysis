@@ -101,10 +101,11 @@ def multi_modal():
       for filename in os.listdir('static/'):
         if filename.startswith('projectwithaudio'):  # not to remove other files
             os.remove('static/' + filename)
-      multimodal.mutimodal_analysis(pathvideo,pathtext)
       for filename in os.listdir('static/'):
         if filename.startswith('output'):  # not to remove other files
             os.remove('static/' + filename)
+      multimodal.mutimodal_analysis(pathvideo,pathtext)
+     
       new_file_name = "output" + str(time.time()) + ".mp4"
       os.rename(os.path.join(app.config['UPLOAD_FOLDER'], "output.mp4"),
                     os.path.join(app.config['UPLOAD_FOLDER'], new_file_name))
