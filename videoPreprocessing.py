@@ -1,19 +1,20 @@
 # Importing all necessary libraries 
 from cv2 import cv2 
+import moviepy.editor
 import os 
 import shutil
 import numpy as np
 import face_recognition
 from matplotlib import pyplot as plt
-import moviepy.editor
+import moviepy.editor as mpe
 import tensorflow as tf
 import glob
 
-def video_into_frames():
+def video_into_frames(path):
 
   
     # Read the video from specified path 
-    cam = cv2.VideoCapture("static/sample.mp4") 
+    cam = cv2.VideoCapture(path) 
     
     try: 
         print("Breaking video into frames")
@@ -77,7 +78,7 @@ def video_from_frames(fps):
 
 
 def combine_audio(vidname, audname, outname,fps):
-	import moviepy.editor as mpe
+
 	my_clip = mpe.VideoFileClip(vidname)
 	audio_background = mpe.AudioFileClip(audname)
 	final_clip = my_clip.set_audio(audio_background)
@@ -93,9 +94,12 @@ def predict():
     # Initialize variables
     face_locations = []
     pred="none"
+    pred_dic={"Positive":"0","Negative":"0","Neutral":"0"}
+    pos=0
+    neg=0
+    neu=0
     for count in range(len(os.listdir('static/data'))):
         # Grab a single frame of video
-        print("frame")
         filename = 'static/data/frame' + str(count) + '.jpg'
         # Quit when the input video file ends
         frame = cv2.imread(filename)
@@ -127,11 +131,14 @@ def predict():
             # Blue color in BGR 
             if pred=="Negative" or pred=="Angry" or pred=="Disgust" or pred=="Fear" or pred=="Sad":
                 rgb_value=(0,0,255)
+                neg+=1
 
             elif pred=="Neutral":
                 rgb_value=(255,0,0)
+                neu+=1
             elif pred=="Positive" or pred=="Surprise" or pred=="Happy" :  
                 rgb_value=(0,255,0)
+                pos+=1
             cv2.putText(frame, pred, (top,right), font, 1, rgb_value, 2)
             #print("left : ",left," Top: ",top," Right: ",right," Bottom: ",bottom)
             cv2.rectangle(frame, (top,right), (top+bottom,right+left),rgb_value, 2)
@@ -150,7 +157,11 @@ def predict():
 
             elif pred=="Positive" or pred=="Surprise" or pred=="Happy" :  
                 cv2.imwrite('static/Image/positive/frame'+ str(count) + '.jpg', frame)
+        pred_dic["Positive"]=pos
+        pred_dic["Negative"]=neg
+        pred_dic["Neutral"]=neu
 
+    return pred_dic
     
 
 def video(path):
@@ -161,7 +172,7 @@ def video(path):
     #Replace the parameter with the location along with filename
     audio.write_audiofile("static/audio.mp3") 
     
-    video_into_frames()
+    video_into_frames("static/sample.mp4")
     predict()
     cam = cv2.VideoCapture("static/sample.mp4") 
     fps = cam.get(cv2.CAP_PROP_FPS)
@@ -169,14 +180,23 @@ def video(path):
     
     combine_audio("static/project.avi","static/audio.mp3","static/projectwithaudio.mp4",25)
 def image_extract():
-    
+    print("inside image extract")
     # Replace the parameter with the location of the video
+    if os.path.exists('static/data'): 
+        shutil.rmtree('static/data')
+    if os.path.exists('static/Image'): 
+            shutil.rmtree('static/Image')
+        
+    os.makedirs('static/Image')
+    os.makedirs('static/Image/positive')
+    os.makedirs('static/Image/negative')
+    os.makedirs('static/Image/neutral')
     video = moviepy.editor.VideoFileClip("static/sample.mp4")
     audio = video.audio
     #Replace the parameter with the location along with filename
     audio.write_audiofile("static/audio.mp3") 
     
-    video_into_frames()
+    video_into_frames("static/sample.mp4")
     predict()
 
     
