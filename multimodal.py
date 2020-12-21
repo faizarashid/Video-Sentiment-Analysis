@@ -48,38 +48,38 @@ def mutimodal_analysis(video,subtitle):
         audio_res=pred_audio[audname]
         print(max_keys,pred_text,audio_res)
         filename="static/video/output"+str(i)+".mp4"
-        if str(max_keys) == "Positive" and  pred_text=="Positive" and audio_res=="Positive":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Positive ':x=640:y=360:fontsize=24:fontcolor=green" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Negative" and  pred_text=="Positive" and audio_res=="Positive":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Positive ':x=640:y=360:fontsize=24:fontcolor=green" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Neutral" and  pred_text=="Positive" and audio_res=="Positive":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Positive ':x=640:y=360:fontsize=24:fontcolor=green" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Positive" and  pred_text=="Negative" and audio_res=="Negative":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Negative ':x=640:y=360:fontsize=24:fontcolor=red" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Neutral" and  pred_text=="Negative" and audio_res=="Negative":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Negative ':x=640:y=360:fontsize=24:fontcolor=red" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Negative" and  pred_text=="Negative" and audio_res=="Negative":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Negative ':x=640:y=360:fontsize=24:fontcolor=red" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Neutral" and  pred_text== "Neutral" and audio_res== "Neutral":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Neutral ':x=640:y=360:fontsize=24:fontcolor=blue" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Positive" and  pred_text== "Neutral" and audio_res== "Neutral":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Neutral ':x=640:y=360:fontsize=24:fontcolor=blue" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Negative" and  pred_text== "Neutral" and audio_res== "Neutral":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Neutral ':x=640:y=360:fontsize=24:fontcolor=blue" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Positive" and  pred_text== "Positive" and audio_res== "Neutral":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Positive ':x=640:y=360:fontsize=24:fontcolor=green" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Positive" and  pred_text== "Positive" and audio_res== "Negative":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Positive ':x=640:y=360:fontsize=24:fontcolor=green" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Negative" and  pred_text=="Negative" and audio_res=="Positive":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Negative ':x=640:y=360:fontsize=24:fontcolor=red" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Negative" and  pred_text=="Negative" and audio_res=="Neutral":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Negative ':x=640:y=360:fontsize=24:fontcolor=red" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Neutral" and  pred_text== "Neutral" and audio_res== "Negative":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Neutral ':x=640:y=360:fontsize=24:fontcolor=blue" ,"-c:a" ,"copy", filename]
-        elif str(max_keys) == "Neutral" and  pred_text== "Neutral" and audio_res== "Positive":
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Neutral ':x=640:y=360:fontsize=24:fontcolor=blue" ,"-c:a" ,"copy", filename]
+        if  max_keys[0]== "Positive" and  pred_text=="Positive" and audio_res=="Positive":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Positive ':x=640:y=360:fontsize=30:fontcolor=green :box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Negative" and  pred_text=="Positive" and audio_res=="Positive":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Positive ':x=640:y=360:fontsize=30:fontcolor=green:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Neutral" and  pred_text=="Positive" and audio_res=="Positive":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Positive ':x=640:y=360:fontsize=30:fontcolor=green:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Positive" and  pred_text=="Negative" and audio_res=="Negative":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Negative ':x=640:y=360:fontsize=30:fontcolor=red:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Neutral" and  pred_text=="Negative" and audio_res=="Negative":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Negative ':x=640:y=360:fontsize=30:fontcolor=red:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Negative" and  pred_text=="Negative" and audio_res=="Negative":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Negative ':x=640:y=360:fontsize=30:fontcolor=red:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Neutral" and  pred_text== "Neutral" and audio_res== "Neutral":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Neutral ':x=640:y=360:fontsize=30:fontcolor=blue:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Positive" and  pred_text== "Neutral" and audio_res== "Neutral":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Neutral ':x=640:y=360:fontsize=30:fontcolor=blue:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Negative" and  pred_text== "Neutral" and audio_res== "Neutral":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Neutral ':x=640:y=360:fontsize=30:fontcolor=blue:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Positive" and  pred_text== "Positive" and audio_res== "Neutral":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Positive ':x=640:y=360:fontsize=30:fontcolor=green:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Positive" and  pred_text== "Positive" and audio_res== "Negative":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Positive ':x=640:y=360:fontsize=30:fontcolor=green:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Negative" and  pred_text=="Negative" and audio_res=="Positive":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Negative ':x=640:y=360:fontsize=30:fontcolor=red:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Negative" and  pred_text=="Negative" and audio_res=="Neutral":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Negative ':x=640:y=360:fontsize=30:fontcolor=red:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Neutral" and  pred_text== "Neutral" and audio_res== "Negative":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Neutral ':x=640:y=360:fontsize=30:fontcolor=blue:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
+        elif max_keys[0] == "Neutral" and  pred_text== "Neutral" and audio_res== "Positive":
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text='Multi Modal Neutral ':x=640:y=360:fontsize=30:fontcolor=blue:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
         else:
-            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Neutral ':x=640:y=360:fontsize=24:fontcolor=blue" ,"-c:a" ,"copy", filename]
+            cmd=["ffmpeg", "-i",fname, "-vf", "drawtext=text=' Neutral ':x=640:y=360:fontsize=30:fontcolor=blue:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", filename]
         subprocess.run(cmd, stderr=subprocess.STDOUT)
         f.write("file '"+filename+"'\n")
     f.close()   

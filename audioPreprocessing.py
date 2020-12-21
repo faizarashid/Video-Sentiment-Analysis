@@ -10,6 +10,8 @@ import multimodal
 import shutil
 from keras.preprocessing import image
 import numpy as np
+from shutil import copyfile
+import subprocess
 Category = ["Angry","Calm", "Disgust","Fear", "Happy", "Neutral", "Sad","Surprise"]
 
 
@@ -67,6 +69,42 @@ def audio(path):
         os.remove(fname)
 
     return predictions
-
+def audio_extract(dic):
+    if os.path.exists('static/audio/positive'): 
+        shutil.rmtree('static/audio/Positive')
+        shutil.rmtree('static/audio/Negative')
+        shutil.rmtree('static/audio/Neutral')
+    os.makedirs('static/audio/Positive')
+    os.makedirs('static/audio/Negative')
+    os.makedirs('static/audio/Neutral')
+    count=0
+    for key in dic:
+        src=key
+        dst='static/audio/'+dic[key]+'/'+dic[key]+''+str(count)+'.mp3'
+        print(src,dst)
+        copyfile(src, dst)
+        count+=1
 #detach_audios("D:/FYP/7th Semester/Test Videos/selena-gomez-this-is-the-year-official.mp4","D:/FYP/7th Semester/Test Videos/thiss the year.vtt")
 #print(audio("static/audio/"))
+def audiovisualize(dic):
+    count=0
+    f= open("combine.txt","w+")
+
+    for key in dic:
+        filename='static/video/video' + str(count) + '.mp4'
+        new_filename="static/audio/output"+str(count)+".mp4"
+        if dic[key]=="Positive":
+            cmd=["ffmpeg", "-i",filename, "-vf", "drawtext=text=' Audio Predicted Positive ':x=40:y=60:fontsize=50:fontcolor=green:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", new_filename]
+        elif dic[key]=="Negative":
+            cmd=["ffmpeg", "-i",filename, "-vf", "drawtext=text=' Audio Predicted Negative ':x=40:y=60:fontsize=50:fontcolor=red:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", new_filename]
+
+        elif dic[key]=="Neutral":
+            cmd=["ffmpeg", "-i",filename, "-vf", "drawtext=text=' Audio Predicted Neutral ':x=40:y=60:fontsize=50:fontcolor=blue:box=1: boxcolor=black@0.5:boxborderw=5" ,"-c:a" ,"copy", new_filename]
+        subprocess.run(cmd, stderr=subprocess.STDOUT)
+        f.write("file '"+new_filename+"'\n")
+        count+=1
+    f.close()
+    cmd= ["ffmpeg" ,"-f", "concat" ,"-safe","0" ,"-i", "combine.txt","-c", "copy", "static/output.mp4"]
+    #video_division("D:/FYP/7th Semester/Test Videos/selena-gomez-this-is-the-year-official.mp4","D:/FYP/7th Semester/Test Videos/thiss the year.vtt")
+    subprocess.run(cmd, stderr=subprocess.STDOUT)
+    return

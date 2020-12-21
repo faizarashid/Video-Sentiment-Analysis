@@ -52,6 +52,9 @@ def upload_file():
    if request.method == 'POST' :
 
         # save each "charts" file
+      for filename in os.listdir('static/'):
+        if filename.startswith('sample'):  # not to remove other files
+          os.remove('static/' + filename)
       for file in request.files.getlist('myfile'):
         if file.filename.endswith(".mp4"):
             path=os.path.join(app.config['UPLOAD_FOLDER'], "sample.mp4")
@@ -84,13 +87,40 @@ def upload_file():
           textPreprocessing.text_extract()
 @app.route('/audio', methods=['POST'])
 def audio():
-  audioPreprocessing.detach_audios("D:/FYP/7th Semester/Test Videos/selena-gomez-this-is-the-year-official.mp4","D:/FYP/7th Semester/Test Videos/thiss the year.vtt")
-  audioPreprocessing.audio("static/audio")
-  return render_template("Audio analysis successfully performed")
+  if request.method == 'POST' :
 
+        # save each "charts" file
+
+    for file in request.files.getlist('myaudiofile'):
+      if file.filename.endswith(".mp4"):
+        path1=os.path.join(app.config['UPLOAD_FOLDER'], "sample.mp4")
+        file.save(path1)
+        print("file saved")
+      if file.filename.endswith(".vtt"):
+        path2=os.path.join(app.config['UPLOAD_FOLDER'], "subtitles.vtt")
+        file.save(path2)
+    
+    if request.form['submit_button'] == 'Upload & Visualize':
+        audioPreprocessing.detach_audios("static/sample.mp4","static/subtitles.vtt")
+        dic=audioPreprocessing.audio("static/audio/")
+        audioPreprocessing.audiovisualize(dic)
+        new_file_name = "output" + str(time.time()) + ".mp4"
+        os.rename(os.path.join(app.config['UPLOAD_FOLDER'], "output.mp4"),
+                    os.path.join(app.config['UPLOAD_FOLDER'], new_file_name))
+        return render_template('display.html',filename=new_file_name)
+      
+    elif request.form['submit_button'] == 'Extract Audio':
+        audioPreprocessing.detach_audios("static/sample.mp4","static/subtitles.vtt")
+        dic=audioPreprocessing.audio("static/audio/")
+        audioPreprocessing.audio_extract(dic)
+        return render_template('extractedaudio.html')
+   
 @app.route('/mmanalysis', methods=['POST'])
 def multi_modal():
-      for file in request.files.getlist('myfile'):
+      for filename in os.listdir('static/'):
+        if filename.startswith('sample'):  # not to remove other files
+          os.remove('static/' + filename)
+      for file in request.files.getlist('mymmfile'):
         if file.filename.endswith(".mp4"):
             pathvideo=os.path.join(app.config['UPLOAD_FOLDER'], "sample.mp4")
             file.save(pathvideo)
@@ -98,9 +128,7 @@ def multi_modal():
             pathtext=os.path.join(app.config['UPLOAD_FOLDER'], "subtitles.vtt")
             file.save(pathtext)
     
-      for filename in os.listdir('static/'):
-        if filename.startswith('projectwithaudio'):  # not to remove other files
-            os.remove('static/' + filename)
+
       for filename in os.listdir('static/'):
         if filename.startswith('output'):  # not to remove other files
             os.remove('static/' + filename)
@@ -109,7 +137,7 @@ def multi_modal():
       new_file_name = "output" + str(time.time()) + ".mp4"
       os.rename(os.path.join(app.config['UPLOAD_FOLDER'], "output.mp4"),
                     os.path.join(app.config['UPLOAD_FOLDER'], new_file_name))
-      return render_template('display.html',filename=new_file_name)
+      return render_template('multimodal.html',filename=new_file_name)
       
 
 
