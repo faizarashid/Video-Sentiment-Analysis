@@ -26,7 +26,17 @@
                 font-size: 40px;
                 font-family: "Lobster",system-ui;
             }
-           
+            .wrapper {
+                display: flex;
+              }
+
+              .left {
+                flex: 0 0 65%;
+              }
+
+              .right {
+                flex: 1;
+              }
             .video::cue(.red){ color: red; }
             .video::cue(.blue){ color: blue; }
             .video::cue(.green){ color: green; }
@@ -78,8 +88,7 @@
                 @media (min-width: 1200px) {
                 .containerforupload {
                     max-width: 440px;
-                    margin-left: 400px;
-                    margin-right: 500px;
+
                     border-radius: 50px;
                     padding: 48px 40px 36px;
 
@@ -169,8 +178,10 @@
             </div>
           </nav>
           {% block content %}
-        <div class="containerforupload">
-            <div class="col-12 col-md">
+          <div class="wrapper">
+        <div class="containerforupload left">
+          <h1>For Video Sentiment Analysis</h1>
+            <div class="col-4 col-md">
                 
                 
                 
@@ -194,8 +205,9 @@
             
             </div>    
         </div>
-        <div class="containerforupload">
-          <div class="col-12 col-md">
+        <div class="containerforupload right">
+          <h1>For Text Sentiment Analysis</h1>
+          <div class="col-4 col-md">
               
               
               
@@ -216,6 +228,55 @@
           
           </div>    
       </div>
+    </div> 
+    <div class="wrapper">
+      <div  class="containerforupload left">
+        <h1>For Audio Sentiment Analysis</h1>
+        <div class="col-4 col-md">
+            
+            
+            
+            <form action = "http://127.0.0.1:5000/audio" method = "POST"  enctype = "multipart/form-data">
+                <input type="file" name="myaudiofile" id="myaudiofile" style="display:none;" multiple="true"><br><br>
+                
+                <p><label for="myaudiofile" style="cursor: pointer;" >
+                   <img  id="image"src="static/cloud-up-icon.png" style="cursor: pointer;">
+                </label><br>
+                Click on Cloud icon ,then select the path to subtitle file and lastly click on upload button
+            </p>
+                
+                    <input type="submit" name="submit_button" class="btn btn-primary btn-block" value="Upload & Visualize"  />
+                    <input type="submit" name="submit_button" class="btn btn-primary btn-block" value="Extract Audio"  />
+                
+            </form>
+          
+        
+        </div>    
+    </div>
+    <div  class="containerforupload right">
+      <h1>For MultiModal Sentiment Analysis</h1>
+      <div class="col-4 col-md">
+          
+          
+          
+          <form action = "http://127.0.0.1:5000/mmanalysis" method = "POST"  enctype = "multipart/form-data">
+              <input type="file" name="mymmfile" id="mymmfile" style="display:none;" multiple="true"><br><br>
+              
+              <p><label for="mymmfile" style="cursor: pointer;" >
+                 <img  id="image"src="static/cloud-up-icon.png" style="cursor: pointer;">
+              </label><br>
+              Click on Cloud icon ,then select the path to subtitle file and lastly click on upload button
+          </p>
+              
+                  <input type="submit" name="submit_button" class="btn btn-primary btn-block" value="Upload & Visualize"  />
+                  <input type="submit" name="submit_button" class="btn btn-primary btn-block" value="Extract Audio"  />
+              
+          </form>
+        
+      
+      </div>    
+  </div>
+  </div>
         {% endblock %}
         
 
