@@ -42,6 +42,19 @@ def predict(message):
     pred = model.predict(padded)
 
     return class_names[np.argmax(pred)]
+def pred_line(message):
+    emotion =predict(message) 
+    if emotion is "joy":
+       return "Positive" 
+            
+           
+    elif emotion is "anger" or emotion is "sadness" or emotion is "fear":
+        return "Negative" 
+        
+    elif emotion is "neutral":
+        return "Neutral"
+    else:
+        return "Neutral"
 
 def file_writing(path):
     vtt = WebVTT()
@@ -53,13 +66,16 @@ def file_writing(path):
         
         if emotion is "joy":
             caption = Caption(line.start,line.end,"<c.green> "+emotion+": "+line.text+"</c>")
-            
+        elif emotion is "fear":
+            caption = Caption(line.start,line.end,"<c.red> "+emotion+": "+line.text+"</c>")   
            
-        elif emotion == "anger":
+        elif emotion is "anger":
             caption = Caption(line.start,line.end,"<c.red> "+emotion+": "+line.text+"</c>")
-        elif emotion == "sadness":
+        elif emotion is "sadness":
             caption = Caption(line.start,line.end,"<c.red> "+emotion+": "+line.text+"</c>")
-        elif emotion == "neutral":
+        elif emotion is "neutral":
+            caption = Caption(line.start,line.end,"<c.blue> "+emotion+": "+line.text+"</c>")
+        else:
             caption = Caption(line.start,line.end,"<c.blue> "+emotion+": "+line.text+"</c>")
         vtt.captions.append(caption)
     vtt.save('static/my_captions.vtt')
