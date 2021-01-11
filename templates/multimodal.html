@@ -4,7 +4,15 @@
     <div class="col-12 col-md">
     <video  width="100%" controls class="video" id="video1" preload="metadata" src="{{ url_for('static', filename=filename) }}" >
     </video>
-    
+    <h4>Desciption: </h4>
+    <table>
+        {% for key, value in timestamps.items() %}
+           <tr>
+                <td> <a>{{ key }}</a> </td>
+                <td> {{ value }} </td>
+           </tr>
+        {% endfor %}
+    </table>
     </div>    
 </div>
 {% endblock %}

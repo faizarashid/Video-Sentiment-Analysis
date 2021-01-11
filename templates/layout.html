@@ -116,7 +116,26 @@
       
         <script>
             //var track = document.getElementById('soybean-talk-clip-captions').track;
-             
+            $(function() {
+    const video = $('video')[0];
+    $('a').click(function(){
+        var str=$(this).text();
+         str=srt.split(" ");
+         var skip=formatTime(parseInt(str));
+        video.currentTime=skip;
+    });
+    $('#progress-bar').click(function(e) {
+        e.preventDefault();
+        video.currentTime = e.offsetX / $(this).width() * video.duration;
+    });
+    
+    function formatTime(seconds) {
+        let minutes = Math.floor(seconds / 60);
+        seconds = Math.floor(seconds % 60);
+        seconds = (seconds >= 10) ? seconds : '0' + seconds;
+        return minutes + ':' + seconds;
+    }
+});
                         $(window).load(function() {
                 // Animate loader off screen
                 $(".se-pre-con").fadeOut("slow");;
@@ -269,8 +288,8 @@
           </p>
               
                   <input type="submit" name="submit_button" class="btn btn-primary btn-block" value="Upload & Visualize"  />
-                  <input type="submit" name="submit_button" class="btn btn-primary btn-block" value="Extract Audio"  />
-              
+                  <input type="submit" name="submit_button" class="btn btn-primary btn-block" value="Extract Video"  />
+
           </form>
         
       
