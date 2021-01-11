@@ -21,7 +21,6 @@ def detach_audios(video,subtitle):
         shutil.rmtree('static/audio')
         
     os.makedirs('static/audio')
-    
     for count in range(len(os.listdir('static/video/'))):
         filename='static/video/video' + str(count) + '.mp4'
         video = moviepy.editor.VideoFileClip(filename)
